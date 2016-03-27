@@ -34,12 +34,24 @@ class MeuCreate(QtGui.QDialog):
         tel= str(self.ui.lineEditTel.text())
         cel= str(self.ui.lineEditCel.text())
         email= str(self.ui.lineEditEmail.text())
-
-        cur.execute("INSERT INTO usuarios (login, senha, nome, endereco, dataNascimento, telefone, celular, email, foto) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (login, senha, nome, endereco, data_nasc, tel, cel, email, "FOTO"))
-        cnn.commit()
         
-        self.hide()
+        if login == "" or senha == "" or nome == "" or endereco == "" or data_nasc == "" or tel == "" or cel == "" or email == "":
+            erroMsg= QtGui.QMessageBox()
+            erroMsg.setText("Login vazio")
+            erroMsg.setWindowTitle("Erro")
+            erroMsg.exec_()
+        else :
+            try:
+                cur.execute("INSERT INTO usuarios (login, senha, nome, endereco, dataNascimento, telefone, celular, email, foto) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                            (login, senha, nome, endereco, data_nasc, tel, cel, email, "FOTO"))
+            except mysql.connector.Error as err: # erro de gravacao
+                erroMsg= QtGui.QMessageBox()
+                erroMsg.setText("Something went wrong: {}".format(err))
+                erroMsg.setWindowTitle("Erro")
+                erroMsg.exec_()
+        
+            cnn.commit()
+            self.hide()
 
 class MeuIndex(QtGui.QDialog):
     def __init__(self, login, senha):
@@ -93,7 +105,10 @@ class MeuLogin(QtGui.QMainWindow):
             self.index= MeuIndex(login, senha)
             self.index.show()
         else:
-            print("Nao Existe")
+            erroMsg= QtGui.QMessageBox()
+            erroMsg.setText("Login nao cadastrado")
+            erroMsg.setWindowTitle("Erro")
+            erroMsg.exec_()
 
     def Create(self):
         self.create= MeuCreate()
