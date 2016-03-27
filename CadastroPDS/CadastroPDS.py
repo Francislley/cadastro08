@@ -8,7 +8,7 @@ from PyQt4 import QtCore, QtGui
 try:
 	cnn= mysql.connector.connect(user="root",password="katrina",host="localhost", database="sys")
 	cur=cnn.cursor()
-except mysql.connector.Error as err: # erro de conexao com o banco de dados
+except mysql.connector.Error as err: # erro de conexao com o banco de dados 
 	print("Something went wrong: {}".format(err))
 
 class MeuCreate(QtGui.QDialog):
