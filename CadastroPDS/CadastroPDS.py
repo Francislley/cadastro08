@@ -37,7 +37,7 @@ class MeuCreate(QtGui.QDialog):
         
         if login == "" or senha == "" or nome == "" or endereco == "" or data_nasc == "" or tel == "" or cel == "" or email == "":
             erroMsg= QtGui.QMessageBox()
-            erroMsg.setText("Login vazio")
+            erroMsg.setText("Campo vazio")
             erroMsg.setWindowTitle("Erro")
             erroMsg.exec_()
         else :
