@@ -23,6 +23,7 @@ class MeuCreate(QtGui.QDialog):
 
     def Sair(self):
         self.hide()
+
     def Cadastrar(self):
 
         login= str(self.ui.lineEditLogin.text())
@@ -91,16 +92,12 @@ class MeuLogin(QtGui.QMainWindow):
         if existe :
             self.index= MeuIndex(login, senha)
             self.index.show()
-            while self.isActiveWindow() :
-                self
         else:
             print("Nao Existe")
 
     def Create(self):
         self.create= MeuCreate()
         self.create.show()
-        while self.isActiveWindow() :
-                self
 
 if __name__ == "__main__":
 	app = QtGui.QApplication(sys.argv)
