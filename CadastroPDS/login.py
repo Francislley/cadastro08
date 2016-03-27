@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'cadastroPDS.ui'
+# Form implementation generated from reading ui file 'login.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -80,9 +80,11 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
+        QtCore.QObject.connect(self.buttonEntrar, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.show)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Login", None))
         self.label.setText(_translate("MainWindow", "Login", None))
         self.label_2.setText(_translate("MainWindow", "Usuario", None))
         self.label_3.setText(_translate("MainWindow", "Senha", None))

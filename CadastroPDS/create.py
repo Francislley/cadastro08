@@ -26,6 +26,12 @@ class Ui_CreateDialog(object):
     def setupUi(self, CreateDialog):
         CreateDialog.setObjectName(_fromUtf8("CreateDialog"))
         CreateDialog.resize(534, 384)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(CreateDialog.sizePolicy().hasHeightForWidth())
+        CreateDialog.setSizePolicy(sizePolicy)
+        CreateDialog.setAccessibleName(_fromUtf8(""))
         CreateDialog.setModal(True)
         self.layoutWidget = QtGui.QWidget(CreateDialog)
         self.layoutWidget.setGeometry(QtCore.QRect(70, 60, 91, 231))
@@ -100,7 +106,7 @@ class Ui_CreateDialog(object):
         QtCore.QMetaObject.connectSlotsByName(CreateDialog)
 
     def retranslateUi(self, CreateDialog):
-        CreateDialog.setWindowTitle(_translate("CreateDialog", "Dialog", None))
+        CreateDialog.setWindowTitle(_translate("CreateDialog", "Cadastro", None))
         self.label_8.setText(_translate("CreateDialog", "Nome", None))
         self.label_9.setText(_translate("CreateDialog", "Endereço", None))
         self.label_10.setText(_translate("CreateDialog", "Nascimento", None))
