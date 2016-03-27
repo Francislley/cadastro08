@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CadastroPDS.py" />
+    <Compile Include="create.py" />
+    <Compile Include="index.py" />
+    <Compile Include="login.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
