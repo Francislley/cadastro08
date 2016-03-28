@@ -20,6 +20,7 @@ class MeuCreate(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
         QtCore.QObject.connect(self.ui.buttonSair, QtCore.SIGNAL("clicked()"), self.Sair)
         QtCore.QObject.connect(self.ui.buttonCadastrar, QtCore.SIGNAL("clicked()"), self.Cadastrar)
+        QtCore.QObject.connect(self.ui.buttonFoto, QtCore.SIGNAL("clicked()"), self.BrowseFoto)
 
     def Sair(self):
         self.hide()
@@ -40,6 +41,7 @@ class MeuCreate(QtGui.QDialog):
             erroMsg.setText("Campo vazio")
             erroMsg.setWindowTitle("Erro")
             erroMsg.exec_()
+
         else :
             try:
                 cur.execute("INSERT INTO usuarios (login, senha, nome, endereco, dataNascimento, telefone, celular, email, foto) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
@@ -49,9 +51,23 @@ class MeuCreate(QtGui.QDialog):
                 erroMsg.setText("Something went wrong: {}".format(err))
                 erroMsg.setWindowTitle("Erro")
                 erroMsg.exec_()
-        
-            cnn.commit()
+
             self.hide()
+            cnn.commit()
+
+    def BrowseFoto(self):
+        filePath = QtGui.QFileDialog.getOpenFileName(self, 
+                                                       'Single File',
+                                                       "~/Desktop",
+                                                      '*.txt')
+        print('filePath',filePath.toUtf8, '\n')
+        txt= filePath.toUtf8
+        fileHandle = open(txt,'r')
+        lines = fileHandle.readlines()
+        for line in lines:
+            print(line)
+        
+        
 
 class MeuIndex(QtGui.QDialog):
     def __init__(self, login, senha):
@@ -78,6 +94,8 @@ class MeuIndex(QtGui.QDialog):
 
     def Sair(self):
         self.hide()
+
+
         
 
 class MeuLogin(QtGui.QMainWindow):
@@ -102,6 +120,8 @@ class MeuLogin(QtGui.QMainWindow):
                 existe= True
 
         if existe :
+            self.ui.lineEditUser.setText("");
+            self.ui.lineEditPass.setText("");
             self.index= MeuIndex(login, senha)
             self.index.show()
         else:
@@ -115,7 +135,7 @@ class MeuLogin(QtGui.QMainWindow):
         self.create.show()
 
 if __name__ == "__main__":
-	app = QtGui.QApplication(sys.argv)
-	login= MeuLogin()
-	login.show()
-	sys.exit(app.exec_())
+    app = QtGui.QApplication(sys.argv)
+    login= MeuLogin()
+    login.show()
+    sys.exit(app.exec_())
