@@ -16,6 +16,7 @@ class MeuCreate(QtGui.QDialog):
         QtGui.QDialog.__init__(self)
         self.ui= Ui_CreateDialog()
         self.ui.setupUi(self)
+        self.filePath= ""
 
         QtCore.QMetaObject.connectSlotsByName(self)
         QtCore.QObject.connect(self.ui.buttonSair, QtCore.SIGNAL("clicked()"), self.Sair)
@@ -36,36 +37,35 @@ class MeuCreate(QtGui.QDialog):
         cel= str(self.ui.lineEditCel.text())
         email= str(self.ui.lineEditEmail.text())
         
-        if login == "" or senha == "" or nome == "" or endereco == "" or data_nasc == "" or tel == "" or cel == "" or email == "":
+        foi= True;
+        
+        if login == "" or senha == "" or nome == "" or endereco == "" or data_nasc == "" or tel == "" or cel == "" or email == "" or self.filePath == "":
             erroMsg= QtGui.QMessageBox()
             erroMsg.setText("Campo vazio")
             erroMsg.setWindowTitle("Erro")
             erroMsg.exec_()
+            foi= False;
 
         else :
             try:
                 cur.execute("INSERT INTO usuarios (login, senha, nome, endereco, dataNascimento, telefone, celular, email, foto) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                            (login, senha, nome, endereco, data_nasc, tel, cel, email, "FOTO"))
+                            (login, senha, nome, endereco, data_nasc, tel, cel, email, str(self.filePath)))
             except mysql.connector.Error as err: # erro de gravacao
                 erroMsg= QtGui.QMessageBox()
                 erroMsg.setText("Something went wrong: {}".format(err))
                 erroMsg.setWindowTitle("Erro")
                 erroMsg.exec_()
-
-            self.hide()
+                foi= False;
             cnn.commit()
 
+        if(foi):
+          self.hide()
+
     def BrowseFoto(self):
-        filePath = QtGui.QFileDialog.getOpenFileName(self, 
-                                                       'Single File',
-                                                       "~/Desktop",
-                                                      '*.txt')
-        print('filePath',filePath.toUtf8, '\n')
-        txt= filePath.toUtf8
-        fileHandle = open(txt,'r')
-        lines = fileHandle.readlines()
-        for line in lines:
-            print(line)
+        self.filePath = QtGui.QFileDialog.getOpenFileName(self, 'Single File', "~/Desktop", '*.jpg')
+
+        foto= QtGui.QPixmap(self.filePath)
+        self.ui.labelFoto.setPixmap(foto.scaled(120,120))
         
         
 
@@ -87,6 +87,7 @@ class MeuIndex(QtGui.QDialog):
         self.ui.lineEditTel.setText(data[0][5])
         self.ui.lineEditCel.setText(data[0][6])
         self.ui.lineEditEmail.setText(data[0][7])
+        self.ui.labelFoto.setPixmap(QtGui.QPixmap(data[0][8]).scaled(120,120))
         self.ui.lineEditLogin.setText(data[0][0])
 
         QtCore.QMetaObject.connectSlotsByName(self)
